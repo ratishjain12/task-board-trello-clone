@@ -1,21 +1,33 @@
 "use client";
 
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 import { useEffect } from "react";
 import { useBoardStore } from "@/store/BoardStore";
+import Column from "./Column";
 function Board() {
-  const getBoard = useBoardStore((state) => state.getBoard);
+  const [board, getBoard] = useBoardStore((state) => [
+    state.board,
+    state.getBoard,
+  ]);
   useEffect(() => {
     getBoard();
   }, [getBoard]);
 
+  const handleOnDragEnd = (result: DropResult) => {};
   return (
-    <h1>Hello</h1>
-    // <DragDropContext>
-    //   <Droppable droppableId="board" direction="horizontal" type="column">
-    //     {(provided) => <div>{/* Render columns */}</div>}
-    //   </Droppable>
-    // </DragDropContext>
+    <DragDropContext onDragEnd={handleOnDragEnd}>
+      <Droppable droppableId="board" direction="horizontal" type="column">
+        {(provided) => (
+          <div {...provided.droppableProps} ref={provided.innerRef}>
+            {Array.from(board.columns.entries()).map(([id, column], index) => {
+              return (
+                <Column key={id} id={id} todos={column.todos} index={index} />
+              );
+            })}
+          </div>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
 }
 export default Board;
