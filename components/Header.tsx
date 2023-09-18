@@ -14,7 +14,7 @@ function Header() {
           alt="trello logo"
           height={100}
           width={300}
-          className="w-44 md:w-56 pb-10 md:pb-0 ml-2"
+          className="w-44 md:w-56 pb-10 md:pb-0 ml-2 pt-2"
         />
         <div className="flex p-2 items-center space-x-2 w-full md:justify-end mr-2">
           {/* search box */}

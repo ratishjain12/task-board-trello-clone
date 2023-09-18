@@ -17,7 +17,7 @@ function Board() {
   return (
     <div className=" w-[100%] flex  justify-center items-center ">
       <DragDropContext onDragEnd={handleOnDragEnd}>
-        <Droppable droppableId="board" direction="horizontal" type="column">
+        <Droppable droppableId="board" type="column" direction="horizontal">
           {(provided) => (
             <div
               {...provided.droppableProps}
