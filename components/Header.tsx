@@ -18,7 +18,7 @@ function Header() {
         />
         <div className="flex p-2 items-center space-x-2 w-full md:justify-end mr-2">
           {/* search box */}
-          <form className="flex items-center space-x-5 bg-white rounded-md shadow-md p-2 mx-3 flex-1 md:flex-initial">
+          <form className="flex items-center space-x-5 bg-white rounded-md shadow-md p-2 mx-3 flex-1 md:flex-initial ">
             <MagnifyingGlassIcon className="h-4 w-6 text-gray-400" />
             <input
               type="text"
