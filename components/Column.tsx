@@ -1,3 +1,4 @@
+"use client";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import TodoCard from "./TodoCard";
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
@@ -25,11 +26,7 @@ function Column({ id, index, todos }: props) {
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
-          <Droppable
-            droppableId={index.toString()}
-            type="card"
-            direction="vertical"
-          >
+          <Droppable droppableId={index.toString()} type="card">
             {(provided, snapshot) => (
               <div
                 {...provided.droppableProps}
@@ -44,31 +41,32 @@ function Column({ id, index, todos }: props) {
                     {todos.length}
                   </span>
                 </h2>
-                <div className="mt-4">
-                  {todos.map((todo) => (
-                    <Draggable
-                      key={todo.$id}
-                      draggableId={todo.$id}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <div
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          ref={provided.innerRef}
-                        >
-                          <TodoCard title={todo.title} status={todo.status} />
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
+
+                {todos.map((todo) => (
+                  <Draggable
+                    key={todo.$id}
+                    draggableId={todo.$id}
+                    index={index}
+                  >
+                    {(provided) => (
+                      <TodoCard
+                        todo={todo}
+                        id={id}
+                        index={index}
+                        innerRef={provided.innerRef}
+                        draggableProps={provided.draggableProps}
+                        dragHandleProps={provided.dragHandleProps}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+
                 <div className="flex justify-end items-end p-2">
                   <button className="text-green-500 hover:text-green-600">
                     <PlusCircleIcon className="h-10 w-6 " />
                   </button>
                 </div>
+                {provided.placeholder}
               </div>
             )}
           </Droppable>

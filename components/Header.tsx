@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import { MagnifyingGlassIcon, UserCircleIcon } from "@heroicons/react/20/solid";
 import Avatar from "react-avatar";

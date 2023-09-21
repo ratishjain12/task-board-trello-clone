@@ -1,17 +1,41 @@
+"use client";
+
 import { XCircleIcon } from "@heroicons/react/20/solid";
+import {
+  DraggableProvidedDragHandleProps,
+  DraggableProvidedDraggableProps,
+} from "react-beautiful-dnd";
 
 type Props = {
-  title: String;
-  status: String;
+  todo: Todo;
+  index: number;
+  id: TypedColumn;
+  innerRef: (element: HTMLElement | null) => void;
+  draggableProps: DraggableProvidedDraggableProps;
+  dragHandleProps: DraggableProvidedDragHandleProps | null | undefined;
 };
 
-function TodoCard({ title, status }: Props) {
+function TodoCard({
+  todo,
+  index,
+  id,
+  innerRef,
+  draggableProps,
+  dragHandleProps,
+}: Props) {
   return (
-    <div className="bg-white rounded-lg p-2 drop-shadow-md flex items-center justify-between">
-      {title.toUpperCase()}
-      <button className="text-red-500 hover:text-red-600">
-        <XCircleIcon className="h-10 w-6" />
-      </button>
+    <div
+      className="bg-white rounded-md space-y-2 drop-shadow-md m-1"
+      {...draggableProps}
+      {...dragHandleProps}
+      ref={innerRef}
+    >
+      <div className="flex justify-between items-center p-5">
+        <p>{todo.title}</p>
+        <button className="text-red-500 hover:text-red-600">
+          <XCircleIcon className="ml-5 h-8 w-8" />
+        </button>
+      </div>
     </div>
   );
 }

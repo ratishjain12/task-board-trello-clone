@@ -4,12 +4,16 @@ import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 import { useEffect } from "react";
 import { useBoardStore } from "@/store/BoardStore";
 import Column from "./Column";
+import { log } from "console";
 function Board() {
-  const [board, getBoard, setBoardState] = useBoardStore((state) => [
-    state.board,
-    state.getBoard,
-    state.setBoardState,
-  ]);
+  const [board, getBoard, setBoardState, updateTodoInDB] = useBoardStore(
+    (state) => [
+      state.board,
+      state.getBoard,
+      state.setBoardState,
+      state.updateTodoInDB,
+    ]
+  );
   useEffect(() => {
     getBoard();
   }, [getBoard]);
@@ -47,7 +51,7 @@ function Board() {
       if (source.index === destination.index && startCol === endCol) return;
 
       const newTodos = startCol.todos;
-      const [todoMoved] = newTodos.splice(source.index, 0);
+      const [todoMoved] = newTodos.splice(source.index, 1);
       if (startCol.id === endCol.id) {
         // same col drag
         newTodos.splice(destination.index, 0, todoMoved);
@@ -63,16 +67,22 @@ function Board() {
         //drag to another column
         const finishTodos = Array.from(endCol.todos);
         finishTodos.splice(destination.index, 0, todoMoved);
+        const newColumns = new Map(board.columns);
         const newCol = {
           id: startCol.id,
           todos: newTodos,
         };
-        const newColumns = new Map(board.columns);
+
         newColumns.set(startCol.id, newCol);
         newColumns.set(endCol.id, {
           id: endCol.id,
           todos: finishTodos,
         });
+
+        console.log("newColumns", newColumns);
+        //update in DB
+
+        updateTodoInDB(todoMoved, endCol.id);
 
         setBoardState({ ...board, columns: newColumns });
       }
